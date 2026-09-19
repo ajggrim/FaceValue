@@ -4,89 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tender – is your dollar worth more than a dollar?</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=Instrument+Sans:wght@400;500;600&family=Share+Tech+Mono&display=swap"
-    rel="stylesheet">
+  <title>Face Value – is your dollar worth more than a dollar?</title>
+  <link rel="stylesheet" href="FaceValue.css">
   <style>
-    :root {
-      --field: #dde7da;
-      /* banknote sage */
-      --panel: #f4f7f0;
-      --ink: #0f2e22;
-      /* engraving green */
-      --ink-soft: #4b6357;
-      --line: #b9c9bb;
-      --green: #1f6b4a;
-      --seal: #b4232a;
-      /* red-seal accent */
-      --gold: #a67c1a;
-      --ok: #1f6b4a;
-      --warn: #a67c1a;
-      --bad: #b4232a;
-      --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
-      --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      --mono: "Share Tech Mono", "SFMono-Regular", Menlo, Consolas, monospace;
-    }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html {
-      scroll-behavior: smooth
-    }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      font: 400 16px/1.55 var(--body);
-      background-color: var(--field);
-      background-image:
-        repeating-radial-gradient(circle at 12% -10%, transparent 0 13px, rgba(15, 46, 34, .045) 13px 14px),
-        repeating-radial-gradient(circle at 92% 110%, transparent 0 17px, rgba(15, 46, 34, .04) 17px 18px);
-      background-attachment: fixed;
-      min-height: 100vh;
-    }
-
-    .wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 28px 20px 72px
-    }
-
-    :focus-visible {
-      outline: 3px solid var(--seal);
-      outline-offset: 2px
-    }
-
-    /* ---------- masthead ---------- */
-    header.mast {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 12px 32px;
-      padding-bottom: 22px;
-      border-bottom: 3px double var(--ink);
-      margin-bottom: 28px
-    }
-
-    h1 {
-      font: 700 clamp(2.6rem, 7vw, 4.6rem)/.95 var(--display);
-      letter-spacing: -.02em;
-      margin: 0
-    }
-
-    .mast p {
-      margin: 0;
-      max-width: 34ch;
-      color: var(--ink-soft)
-    }
-
-    /* ---------- layout ---------- */
     .grid {
       display: grid;
       grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -100,42 +20,10 @@
       }
     }
 
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 22px
+    .grid .panel+.panel {
+      margin-top: 0
     }
 
-    .panel+.panel {
-      margin-top: 24px
-    }
-
-    h2 {
-      font: 700 1.5rem/1.15 var(--display);
-      margin: 0 0 4px
-    }
-
-    .sub {
-      color: var(--ink-soft);
-      margin: 0 0 18px;
-      font-size: .95rem
-    }
-
-    label,
-    .lab {
-      display: block;
-      font-weight: 600;
-      font-size: .9rem;
-      margin: 16px 0 6px
-    }
-
-    .hint {
-      font-weight: 400;
-      color: var(--ink-soft)
-    }
-
-    /* ---------- scan ---------- */
     .drop {
       display: flex;
       flex-direction: column;
@@ -223,17 +111,6 @@
       margin-left: 6px
     }
 
-    input[type=text],
-    select {
-      width: 100%;
-      font: inherit;
-      color: var(--ink);
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      padding: 10px 12px
-    }
-
     #serial {
       font: 400 1.5rem var(--mono);
       letter-spacing: .14em;
@@ -273,7 +150,6 @@
       margin-top: 20px;
       width: 100%;
       font: 700 1.1rem var(--display);
-      letter-spacing: .01em;
       background: var(--green);
       color: #fff;
       border: 0;
@@ -308,281 +184,12 @@
       background: #fff
     }
 
-    /* ---------- result: the bill strip ---------- */
-    .empty {
-      border: 2px dashed var(--line);
-      border-radius: 6px;
-      padding: 40px 22px;
-      text-align: center;
-      color: var(--ink-soft)
-    }
-
-    .empty b {
-      display: block;
-      font: 700 1.3rem var(--display);
-      color: var(--ink);
-      margin-bottom: 6px
-    }
-
-    .note {
-      position: relative;
-      background: linear-gradient(180deg, #e7f0e2, #d3e3cf);
-      border: 2px solid var(--ink);
-      border-radius: 5px;
-      padding: 16px 16px 14px;
-      box-shadow: inset 0 0 0 5px #e7f0e2, inset 0 0 0 6px var(--ink)
-    }
-
-    .note .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font: 600 .82rem var(--body);
-      color: var(--ink-soft);
-      padding: 0 8px
-    }
-
-    .serialrow {
-      display: flex;
-      justify-content: center;
-      align-items: baseline;
-      gap: .5em;
-      flex-wrap: wrap;
-      padding: 12px 8px 6px;
-      font-family: var(--mono);
-      color: var(--green)
-    }
-
-    .serialrow .pre,
-    .serialrow .suf {
-      font-size: clamp(1.3rem, 4.4vw, 2rem)
-    }
-
-    .serialrow .suf.star {
-      color: var(--seal);
-      font-size: clamp(1.8rem, 6vw, 2.7rem)
-    }
-
-    .digits {
-      display: inline-flex;
-      font-size: clamp(1.9rem, 6.2vw, 3rem);
-      letter-spacing: .06em
-    }
-
-    .digits i {
-      font-style: normal
-    }
-
-    .digits i.dim {
-      opacity: .35
-    }
-
-    .digits i.hot {
-      color: var(--seal)
-    }
-
-    .note .fed {
-      text-align: center;
-      font-size: .85rem;
-      color: var(--ink-soft)
-    }
-
-    .tierline {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px 16px;
-      margin-top: 18px
-    }
-
-    .tier {
-      font: 700 1.7rem/1 var(--display)
-    }
-
-    .meter {
-      flex: 1 1 180px;
-      height: 10px;
-      border-radius: 5px;
-      background: #d7e2d3;
-      overflow: hidden;
-      border: 1px solid var(--line)
-    }
-
-    .meter span {
-      display: block;
-      height: 100%;
-      background: linear-gradient(90deg, var(--green), var(--gold), var(--seal));
-      transition: width .5s
-    }
-
-    .worth {
-      margin-top: 14px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 6px 14px
-    }
-
-    .worth .big {
-      font: 700 clamp(2.2rem, 6vw, 3.2rem)/1 var(--display)
-    }
-
-    .worth .range {
-      color: var(--ink-soft)
-    }
-
-    .worth .face {
-      flex-basis: 100%;
-      font-size: .9rem;
-      color: var(--ink-soft)
-    }
-
-    ul.plain {
-      list-style: none;
-      padding: 0;
-      margin: 0
-    }
-
-    .feat {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 0;
-      border-top: 1px solid var(--line)
-    }
-
-    .feat:first-child {
-      border-top: 0
-    }
-
-    .feat b {
-      display: block
-    }
-
-    .feat span {
-      color: var(--ink-soft);
-      font-size: .9rem
-    }
-
-    .feat .x {
-      font: 700 1.05rem var(--display);
-      white-space: nowrap
-    }
-
-    h3 {
-      font: 700 1.2rem var(--display);
-      margin: 24px 0 6px
-    }
-
-    .check {
-      display: grid;
-      grid-template-columns: 22px 1fr;
-      gap: 8px;
-      padding: 8px 0;
-      border-top: 1px solid var(--line);
-      font-size: .93rem
-    }
-
-    .check:first-child {
-      border-top: 0
-    }
-
-    .check .ic {
-      font-weight: 700
-    }
-
-    .check.ok .ic {
+    .saved {
+      margin-top: 12px;
+      font-weight: 600;
       color: var(--ok)
     }
 
-    .check.warn .ic {
-      color: var(--warn)
-    }
-
-    .check.bad .ic {
-      color: var(--bad)
-    }
-
-    .check em {
-      font-style: normal;
-      color: var(--ink-soft);
-      display: block
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px
-    }
-
-    .btn {
-      font: 600 .95rem var(--body);
-      border: 1px solid var(--ink);
-      background: transparent;
-      color: var(--ink);
-      border-radius: 4px;
-      padding: 10px 16px;
-      cursor: pointer
-    }
-
-    .btn.solid {
-      background: var(--ink);
-      color: #fff
-    }
-
-    .btn:hover {
-      opacity: .88
-    }
-
-    /* ---------- wallet ---------- */
-    .tablewrap {
-      overflow-x: auto
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: .95rem
-    }
-
-    th,
-    td {
-      text-align: left;
-      padding: 9px 10px;
-      border-bottom: 1px solid var(--line);
-      white-space: nowrap
-    }
-
-    th {
-      font-weight: 600;
-      color: var(--ink-soft)
-    }
-
-    td.mono {
-      font-family: var(--mono);
-      letter-spacing: .06em
-    }
-
-    td.r,
-    th.r {
-      text-align: right
-    }
-
-    tfoot td {
-      border-bottom: 0;
-      font: 700 1.1rem var(--display)
-    }
-
-    .rm {
-      background: none;
-      border: 0;
-      color: var(--seal);
-      cursor: pointer;
-      font: 600 .85rem var(--body)
-    }
-
-    /* ---------- risks ---------- */
     details.panel summary {
       cursor: pointer;
       font: 700 1.3rem var(--display);
@@ -620,20 +227,6 @@
     .risks b {
       display: block
     }
-
-    footer {
-      margin-top: 28px;
-      color: var(--ink-soft);
-      font-size: .85rem;
-      max-width: 78ch
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-      * {
-        transition: none !important;
-        scroll-behavior: auto !important
-      }
-    }
   </style>
 </head>
 
@@ -641,9 +234,15 @@
   <div class="wrap">
 
     <header class="mast">
-      <h1>Tender</h1>
-      <p>Photograph a dollar bill. We read the serial number and tell you whether it&rsquo;s worth more than face value.
-      </p>
+      <div>
+        <h1>Face Value</h1>
+        <p>Photograph a dollar bill. We read the serial number and tell you whether it&rsquo;s worth more than face
+          value.</p>
+      </div>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html" aria-current="page">Scan</a>
+        <a href="vault.html">Vault<small id="navSummary"></small></a>
+      </nav>
     </header>
 
     <div class="grid">
@@ -672,11 +271,7 @@
         <div class="row2">
           <div>
             <label for="cond">Condition</label>
-            <select id="cond">
-              <option value="1">Circulated (folded, worn)</option>
-              <option value="1.6">Crisp uncirculated</option>
-              <option value="2.5">Gem uncirculated (graded 65+)</option>
-            </select>
+            <select id="cond"></select>
           </div>
           <div>
             <label for="series">Series year <span class="hint">(optional)</span></label>
@@ -701,16 +296,9 @@
       </section>
     </div>
 
-    <!-- ===== wallet ===== -->
-    <section class="panel" aria-labelledby="h-w" style="margin-top:24px">
-      <h2 id="h-w">Your stack</h2>
-      <p class="sub">Every bill you add this session, with a running estimate. It never leaves your browser.</p>
-      <div id="wallet"></div>
-    </section>
-
     <!-- ===== risks ===== -->
-    <details class="panel">
-      <summary>What could go wrong, and how Tender handles it</summary>
+    <details class="panel" style="margin-top:24px">
+      <summary>What could go wrong, and how Face Value handles it</summary>
       <div class="risks">
         <div><b>Misread characters</b>
           <p>Cameras confuse O/0, I/1, S/5, B/8. We fix likely swaps, flag every one we changed, and always let you edit
@@ -724,16 +312,17 @@
           <p>Fancy serials are the ones people fake, by changing digits or printing fake bills. Any bill scoring high
             gets a warning to verify it in person before paying a premium.</p>
         </div>
-        <div><b>Duplicate scans</b>
-          <p>The same serial and series twice in one stack is flagged, since a genuine note only exists once per series
-            and bank.</p>
+        <div><b>Duplicate saves</b>
+          <p>The same serial and series can&rsquo;t be saved to your vault twice, so nobody can inflate their account
+            value by re-adding one bill.</p>
         </div>
         <div><b>Overpromising on price</b>
           <p>We show a range, not a single number, and say the figures come from a simple sample model. Real prices
             depend on the market and a professional grade.</p>
         </div>
         <div><b>Privacy</b>
-          <p>Photos are processed in your browser. Nothing is uploaded, and no account details are ever collected.</p>
+          <p>Photos are read in your browser and saved only on this device. Nothing is uploaded, and no account details
+            are ever collected.</p>
         </div>
       </div>
     </details>
@@ -745,168 +334,78 @@
     </footer>
   </div>
 
+  <script src="FaceValue.js"></script>
   <script>
-    /* =========================================================
-       Data (synthetic / sandbox)
-       ========================================================= */
-    const FED = {
-      A: "Boston", B: "New York", C: "Philadelphia", D: "Cleveland", E: "Richmond", F: "Atlanta",
-      G: "Chicago", H: "St. Louis", I: "Minneapolis", J: "Kansas City", K: "Dallas", L: "San Francisco"
-    };
-    const DENOMS = [1, 2, 5, 10, 20, 50, 100];
-    // How much of the collector premium survives on higher denominations (synthetic model)
-    const DAMPEN = { 1: 1, 2: .9, 5: .5, 10: .3, 20: .2, 50: .12, 100: .08 };
-    const SAMPLES = ["L12345678A", "B00000042C", "F55555555D", "K12344321B", "D10101010F", "G27182818*", "A07041776C", "H63289471E"];
-
-    const state = { denom: 1, wallet: [], lastResult: null };
-    try { const w = JSON.parse(localStorage.getItem("tender.wallet") || "[]"); if (Array.isArray(w)) state.wallet = w; } catch (e) { }
-
+    const {esc, money} = FaceValue;
     const $ = s => document.querySelector(s);
-    const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-    const money = n => "$" + (n >= 100 ? Math.round(n).toLocaleString() : n.toFixed(2).replace(/\.00$/, ""));
+    const SAMPLES = ["L12345678A", "B00000042C", "F55555555D", "K12344321B", "D10101010F", "G27182818*", "A07041776C", "H63289471E"];
+    const state = {denom: 1, image: null, last: null, corrected: null};
 
-    /* =========================================================
-       Serial parsing + pattern analysis
-       ========================================================= */
-    function parseSerial(raw) {
-      const s = String(raw).toUpperCase().replace(/[\s\-]/g, "");
-      const m = s.match(/^([A-Z]{1,2})(\d{8})([A-Z*])$/);
-      if (!m) return { ok: false, cleaned: s };
-      return { ok: true, cleaned: s, prefix: m[1], digits: m[2], suffix: m[3] };
+    /* ---------- controls ---------- */
+    FaceValue.DENOMS.forEach(d => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = "$" + d; b.dataset.d = d;
+      b.setAttribute("aria-pressed", d === state.denom);
+      b.onclick = () => {state.denom = d; document.querySelectorAll("#denom button").forEach(x => x.setAttribute("aria-pressed", +x.dataset.d === d)); if (state.last) runCheck();};
+      $("#denom").appendChild(b);
+    });
+    FaceValue.CONDITIONS.forEach(c => {const o = document.createElement("option"); o.value = c.v; o.textContent = c.label; $("#cond").appendChild(o);});
+    SAMPLES.forEach(s => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = s;
+      b.onclick = () => {clearPhoto(); $("#serial").value = s; runCheck();};
+      $("#sampleBtns").appendChild(b);
+    });
+    function clearPhoto() {
+      state.image = null; state.corrected = null;
+      $("#preview").style.display = "none"; $("#chips").innerHTML = ""; $("#ocrStatus").textContent = ""; $("#file").value = "";
     }
+    $("#check").onclick = () => runCheck();
+    $("#serial").addEventListener("keydown", e => {if (e.key === "Enter") runCheck();});
+    $("#serial").addEventListener("input", () => {state.corrected = null;});
+    $("#cond").onchange = () => {if (state.last) runCheck();};
 
-    function validDate(mm, dd, yyyy) {
-      if (mm < 1 || mm > 12 || dd < 1) return false;
-      const dim = [31, (yyyy % 4 === 0 && (yyyy % 100 !== 0 || yyyy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      return dd <= dim[mm - 1];
-    }
-
-    function analyze(p) {
-      const d = p.digits, n = parseInt(d, 10), out = [];
-      const add = (id, label, mult, desc) => out.push({ id, label, mult, desc });
-      const counts = {}; for (const c of d) counts[c] = (counts[c] || 0) + 1;
-      const maxSame = Math.max(...Object.values(counts));
-      const solid = maxSame === 8;
-
-      if (solid) add("solid", "Solid", 400, "All eight digits are identical.");
-      else if (maxSame === 7) add("near", "Near-solid", 30, "Seven of the eight digits are the same.");
-
-      const step = [...d].every((c, i) => i === 0 || +c - +d[i - 1] === 1) ? "up" :
-        [...d].every((c, i) => i === 0 || +c - +d[i - 1] === -1) ? "down" : null;
-      if (step) add("ladder", step === "up" ? "True ladder" : "Descending ladder", 60, "Digits count " + (step === "up" ? "up" : "down") + " in order, like " + d + ".");
-
-      if (!solid && /^[01]{8}$/.test(d)) add("binary", "Binary", 40, "Only 0s and 1s.");
-      if (!solid && d === [...d].reverse().join("")) add("radar", "Radar", 6, "Reads the same forwards and backwards.");
-
-      if (!solid) {
-        if (/^(\d\d)\1{3}$/.test(d)) add("repeater2", "Quad repeater", 8, "A two-digit pair repeats four times.");
-        else if (d.slice(0, 4) === d.slice(4)) add("repeater", "Repeater", 5, "The first four digits repeat.");
-      }
-
-      const rot = { 0: 0, 1: 1, 6: 9, 8: 8, 9: 6 };
-      if (!solid && [...d].every(c => c in rot) && [...d].reverse().map(c => rot[c]).join("") === d)
-        add("rotator", "Rotator", 8, "Reads the same upside down.");
-
-      if (n >= 1 && n <= 100) add("low", "Ultra-low serial", 100, "Among the first 100 printed for its series.");
-      else if (n <= 1000) add("low", "Low serial", 12, "Under 1,000.");
-      else if (n <= 10000) add("low", "Low-ish serial", 2.5, "Under 10,000.");
-      if (n >= 99999000) add("high", "High serial", 3, "Within the last thousand of the run.");
-
-      const mm = +d.slice(0, 2), dd = +d.slice(2, 4), yy = +d.slice(4);
-      if ((yy >= 1900 && yy <= 2026 || yy === 1776) && validDate(mm, dd, yy))
-        add("date", "Date serial", 3, "Reads as a date: " + mm + "/" + dd + "/" + yy + ".");
-
-      if (p.suffix === "*") add("star", "Star note", 4, "A replacement note, printed to replace a damaged sheet.");
-      return out.sort((a, b) => b.mult - a.mult);
-    }
-
-    function combinedMultiplier(f) {
-      if (!f.length) return 1;
-      return f[0].mult + 0.3 * f.slice(1).reduce((s, x) => s + (x.mult - 1), 0);
-    }
-
-    function valueBill(f, denom, cond) {
-      const m = combinedMultiplier(f);
-      const premium = (m - 1) * denom * DAMPEN[denom] * cond;
-      const est = denom + premium;
-      const low = f.length ? Math.max(denom, est * 0.7) : denom;
-      const high = f.length ? est * 1.6 : denom;
-      const score = Math.min(100, Math.round(100 * Math.log(m) / Math.log(500)));
-      const tier = m <= 1 ? "Common" : m < 4 ? "Uncommon" : m < 15 ? "Rare" : m < 80 ? "Very rare" : "Legendary";
-      return { m, est, low, high, score, tier };
-    }
-
-    /* =========================================================
-       Sanity checks (the "what could go wrong" panel)
-       ========================================================= */
-    function runChecks(p, feats, val, meta) {
-      const c = [];
-      const push = (lvl, t, d) => c.push({ lvl, t, d });
-      push("ok", "Serial format is valid", "Prefix letters, eight digits, then a letter or star.");
-
-      if (+p.digits === 0) push("bad", "Serial 00000000 can't exist", "Serials start at 00000001. This is a misread or a fake.");
-      const fedLetter = p.prefix[0];
-      if (FED[fedLetter]) push("ok", "Prefix points to the " + FED[fedLetter] + " Federal Reserve Bank", "Letter " + fedLetter + " is a valid district. Check it matches the seal on the front.");
-      else push("warn", "Prefix letter " + fedLetter + " isn't a Federal Reserve district", "Districts run A to L. Newer or older series may differ, so double-check the photo.");
-
-      if (meta.corrected) push("warn", "We corrected some characters from the photo", "Confirm each digit against the bill before trusting the result.");
-      if (p.suffix !== "*" && !/[A-Z]/.test(p.suffix)) push("warn", "Unusual ending character", "");
-      if (meta.dup) push("warn", "Already in your stack", "The same serial and series appeared twice. A genuine note exists only once per series and bank, so one of these entries may be a duplicate scan or a counterfeit.");
-      if (val.m >= 15) push("warn", "Fancy serials are the ones people fake", "Altered digits and printed copies are common. Check the paper feel, security thread and watermark, or get it authenticated before paying a premium.");
-      if (!feats.length) push("ok", "No special pattern", "This bill is most likely worth face value.");
-      return c;
-    }
-
-    /* =========================================================
-       Rendering
-       ========================================================= */
-    function renderDigits(p, feats) {
-      const hot = feats.some(f => ["solid", "near", "ladder", "binary", "radar", "repeater", "repeater2", "rotator"].includes(f.id));
-      const lead = feats.some(f => f.id === "low") ? (p.digits.match(/^0*/)[0].length) : 0;
-      return [...p.digits].map((c, i) => `<i class="${i < lead ? "dim" : hot ? "hot" : ""}">${c}</i>`).join("");
+    /* ---------- check flow ---------- */
+    async function runCheck() {
+      const raw = $("#serial").value;
+      const p = FaceValue.parseSerial(raw);
+      if (!p.ok) {renderInvalid(raw); return;}
+      const serial = p.prefix + p.digits + p.suffix;
+      const denom = state.denom, cond = parseFloat($("#cond").value), series = $("#series").value.trim();
+      const rec = {serial, denom, cond, series};
+      const ev = FaceValue.evaluate(rec);
+      let dup = false;
+      try {dup = (await FaceValue.db.all()).some(x => x.serial === serial && x.denom === denom && (x.series || "") === series);} catch (e) { }
+      const corrected = state.corrected === serial;
+      const checks = FaceValue.runChecks(p, ev.feats, ev.val, {corrected, dup});
+      state.last = {rec, ev, checks, dup, corrected};
+      renderResult(state.last);
     }
 
     function renderResult(r) {
-      const { p, feats, val, checks, denom, cond } = r;
-      const fed = FED[p.prefix[0]] ? "Federal Reserve Bank of " + FED[p.prefix[0]] : "Unknown district";
-      const featHTML = feats.length ? feats.map(f => `
-      <li class="feat"><div><b>${esc(f.label)}</b><span>${esc(f.desc)}</span></div><div class="x">×${f.mult}</div></li>`).join("")
-        : `<li class="feat"><div><b>Nothing special</b><span>A random-looking serial with no collectible pattern.</span></div><div class="x">×1</div></li>`;
+      const {ev, checks, dup} = r, {p, feats, val} = ev, denom = r.rec.denom, series = r.rec.series;
       const priced = val.high > denom;
       $("#result").innerHTML = `
-    <div class="note">
-      <div class="top"><span>${money(denom)} note${r.series ? " · Series " + esc(r.series) : ""}</span><span>Sample view</span></div>
-      <div class="serialrow">
-        <span class="pre">${esc(p.prefix)}</span>
-        <span class="digits">${renderDigits(p, feats)}</span>
-        <span class="suf ${p.suffix === "*" ? "star" : ""}">${esc(p.suffix)}</span>
-      </div>
-      <div class="fed">${esc(fed)}</div>
-    </div>
-
+    ${FaceValue.noteHTML(p, feats, money(denom) + " note" + (series ? " · Series " + esc(series) : ""), "Sample view")}
     <div class="tierline">
       <div class="tier">${val.tier}</div>
       <div class="meter" role="img" aria-label="Rarity ${val.score} out of 100"><span style="width:${Math.max(val.score, 4)}%"></span></div>
     </div>
-
     <div class="worth">
       <div class="big">${priced ? money(val.est) : money(denom)}</div>
       <div class="range">${priced ? "likely range " + money(val.low) + " to " + money(val.high) : "face value"}</div>
       <div class="face">${priced ? "Face value is " + money(denom) + ". Estimate uses sample premiums and your condition setting." : "Nothing about this serial adds a premium."}</div>
     </div>
-
     <h3>Why it scored this way</h3>
-    <ul class="plain">${featHTML}</ul>
-
+    <ul class="plain">${FaceValue.featsHTML(feats)}</ul>
     <h3>Checks</h3>
-    <div>${checks.map(c => `<div class="check ${c.lvl}"><span class="ic" aria-hidden="true">${c.lvl === "ok" ? "✓" : c.lvl === "warn" ? "!" : "✕"}</span><div>${esc(c.t)}${c.d ? `<em>${esc(c.d)}</em>` : ""}</div></div>`).join("")}</div>
-
+    <div>${FaceValue.checksHTML(checks)}</div>
     <div class="actions">
-      <button class="btn solid" id="addBtn">Add to my stack</button>
+      <button class="btn solid" id="saveBtn" ${dup ? "disabled" : ""}>${dup ? "Already in your vault" : "Save to vault"}</button>
       <button class="btn" id="clearBtn">Check another</button>
-    </div>`;
-      $("#addBtn").onclick = () => addToWallet(r);
-      $("#clearBtn").onclick = () => { $("#serial").value = ""; $("#serial").focus(); };
+      ${dup ? `<a class="btn" href="vault.html">Open vault</a>` : ""}
+    </div>
+    <div id="savedMsg" class="saved" role="status"></div>`;
+      $("#saveBtn").onclick = saveToVault;
+      $("#clearBtn").onclick = () => {$("#serial").value = ""; $("#serial").focus();};
     }
 
     function renderInvalid(raw) {
@@ -920,66 +419,27 @@
         if (!/[A-Z*]$/.test(s)) tips.push("It should end with a letter or a star.");
       }
       if (!tips.length) tips.push("Compare it with the bill: one or two letters, eight digits, then a letter or star.");
-      $("#result").innerHTML = `<div class="empty" style="border-color:var(--bad)"><b>That doesn't look like a valid serial</b>${tips.map(esc).join(" ")}<br><span style="font-family:var(--mono)">Example: L12345678A</span></div>`;
+      $("#result").innerHTML = `<div class="empty" style="border-color:var(--bad)"><b>That doesn't look like a valid serial</b>${tips.map(esc).join(" ")}<br><span class="mono">Example: L12345678A</span></div>`;
     }
 
-    /* =========================================================
-       Wallet
-       ========================================================= */
-    function saveWallet() { try { localStorage.setItem("tender.wallet", JSON.stringify(state.wallet)); } catch (e) { } }
-    function addToWallet(r) {
-      state.wallet.push({ serial: r.serial, series: r.series || "", denom: r.denom, tier: r.val.tier, est: r.val.est });
-      saveWallet(); renderWallet();
-      const b = $("#addBtn"); if (b) { b.textContent = "Added"; b.disabled = true; }
+    async function saveToVault() {
+      const r = state.last; if (!r) return;
+      const btn = $("#saveBtn"); btn.disabled = true;
+      try {
+        await FaceValue.db.put({
+          id: FaceValue.newId(), serial: r.rec.serial, denom: r.rec.denom, cond: r.rec.cond, series: r.rec.series,
+          image: state.image, source: state.image ? "photo" : "typed", corrected: r.corrected, createdAt: Date.now()
+        });
+        btn.textContent = "Saved";
+        $("#savedMsg").innerHTML = `Saved to your vault. <a href="vault.html">Open vault</a>`;
+        clearPhoto();               // so the next bill doesn't reuse this photo
+        FaceValue.navSummary();
+      } catch (err) {
+        btn.disabled = false;
+        $("#savedMsg").style.color = "var(--bad)";
+        $("#savedMsg").textContent = "Couldn't save: " + err.message;
+      }
     }
-    function renderWallet() {
-      const w = state.wallet;
-      if (!w.length) { $("#wallet").innerHTML = `<div class="empty"><b>Your stack is empty</b>Add a checked bill to start tracking what your cash is worth.</div>`; return; }
-      const total = w.reduce((s, x) => s + x.est, 0), face = w.reduce((s, x) => s + x.denom, 0);
-      $("#wallet").innerHTML = `<div class="tablewrap"><table>
-    <thead><tr><th>Serial</th><th>Series</th><th class="r">Face</th><th>Rarity</th><th class="r">Estimate</th><th></th></tr></thead>
-    <tbody>${w.map((x, i) => `<tr><td class="mono">${esc(x.serial)}</td><td>${esc(x.series || "–")}</td><td class="r">${money(x.denom)}</td><td>${esc(x.tier)}</td><td class="r">${money(x.est)}</td><td><button class="rm" data-i="${i}" aria-label="Remove ${esc(x.serial)}">Remove</button></td></tr>`).join("")}</tbody>
-    <tfoot><tr><td colspan="2">${w.length} bill${w.length > 1 ? "s" : ""}</td><td class="r">${money(face)}</td><td></td><td class="r">${money(total)}</td><td></td></tr></tfoot>
-  </table></div>`;
-      document.querySelectorAll(".rm").forEach(b => b.onclick = () => { state.wallet.splice(+b.dataset.i, 1); saveWallet(); renderWallet(); });
-    }
-
-    /* =========================================================
-       Check flow
-       ========================================================= */
-    function runCheck(meta = {}) {
-      const raw = $("#serial").value;
-      const p = parseSerial(raw);
-      if (!p.ok) { renderInvalid(raw); return; }
-      const feats = analyze(p);
-      const cond = parseFloat($("#cond").value);
-      const denom = state.denom;
-      const val = valueBill(feats, denom, cond);
-      const series = $("#series").value.trim();
-      const serial = p.prefix + p.digits + p.suffix;
-      const dup = state.wallet.some(x => x.serial === serial && (x.series || "") === series);
-      const checks = runChecks(p, feats, val, { corrected: !!meta.corrected && meta.corrected === serial, dup });
-      const r = { p, feats, val, checks, denom, cond, series, serial };
-      state.lastResult = r;
-      renderResult(r);
-    }
-
-    /* ---------- controls ---------- */
-    DENOMS.forEach(d => {
-      const b = document.createElement("button"); b.type = "button"; b.textContent = "$" + d; b.dataset.d = d;
-      b.setAttribute("aria-pressed", d === state.denom);
-      b.onclick = () => { state.denom = d; document.querySelectorAll("#denom button").forEach(x => x.setAttribute("aria-pressed", +x.dataset.d === d)); if (state.lastResult) runCheck(); };
-      $("#denom").appendChild(b);
-    });
-    SAMPLES.forEach(s => {
-      const b = document.createElement("button"); b.type = "button"; b.textContent = s;
-      b.onclick = () => { $("#serial").value = s; runCheck(); };
-      $("#sampleBtns").appendChild(b);
-    });
-    $("#check").onclick = () => runCheck({ corrected: window.__corrected });
-    $("#serial").addEventListener("keydown", e => { if (e.key === "Enter") runCheck({ corrected: window.__corrected }); });
-    $("#serial").addEventListener("input", () => { window.__corrected = null; });
-    $("#cond").onchange = () => { if (state.lastResult) runCheck(); };
 
     /* =========================================================
        Photo scan (OCR runs in the browser with Tesseract.js)
@@ -988,39 +448,38 @@
     let workerPromise = null, progressCb = null;
 
     function loadScript(src) {
-      return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("Couldn't load the OCR library")); document.head.appendChild(s); });
+      return new Promise((res, rej) => {const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("Couldn't load the OCR library")); document.head.appendChild(s);});
     }
     function getWorker() {
       if (!workerPromise) {
         workerPromise = (async () => {
           if (!window.Tesseract) await loadScript(TESS_URL);
-          const w = await Tesseract.createWorker("eng", 1, { logger: m => { if (progressCb) progressCb(m); } });
-          await w.setParameters({ tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*", tessedit_pageseg_mode: "11" });
+          const w = await Tesseract.createWorker("eng", 1, {logger: m => {if (progressCb) progressCb(m);}});
+          await w.setParameters({tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*", tessedit_pageseg_mode: "11"});
           return w;
-        })().catch(e => { workerPromise = null; throw e; });
+        })().catch(e => {workerPromise = null; throw e;});
       }
       return workerPromise;
     }
 
     function prepCanvas(img, rotate) {
       const max = 1800, sc = Math.min(1.5, max / Math.max(img.naturalWidth, img.naturalHeight));
-      let w = Math.round(img.naturalWidth * sc), h = Math.round(img.naturalHeight * sc);
+      const w = Math.round(img.naturalWidth * sc), h = Math.round(img.naturalHeight * sc);
       const c = document.createElement("canvas");
       const swap = rotate === 90 || rotate === 270;
       c.width = swap ? h : w; c.height = swap ? w : h;
       const g = c.getContext("2d");
       g.translate(c.width / 2, c.height / 2); g.rotate(rotate * Math.PI / 180);
       g.drawImage(img, -w / 2, -h / 2, w, h);
-      // grayscale + contrast stretch
       const id = g.getImageData(0, 0, c.width, c.height), a = id.data; let lo = 255, hi = 0;
-      for (let i = 0; i < a.length; i += 4) { const y = .299 * a[i] + .587 * a[i + 1] + .114 * a[i + 2]; a[i] = a[i + 1] = a[i + 2] = y; if (y < lo) lo = y; if (y > hi) hi = y; }
+      for (let i = 0; i < a.length; i += 4) {const y = .299 * a[i] + .587 * a[i + 1] + .114 * a[i + 2]; a[i] = a[i + 1] = a[i + 2] = y; if (y < lo) lo = y; if (y > hi) hi = y;}
       const span = Math.max(1, hi - lo);
-      for (let i = 0; i < a.length; i += 4) { const v = (a[i] - lo) * 255 / span; a[i] = a[i + 1] = a[i + 2] = v; }
+      for (let i = 0; i < a.length; i += 4) {const v = (a[i] - lo) * 255 / span; a[i] = a[i + 1] = a[i + 2] = v;}
       g.putImageData(id, 0, 0);
       return c;
     }
 
-    const FIX = { O: "0", Q: "0", D: "0", I: "1", L: "1", S: "5", B: "8", Z: "2", G: "6" };
+    const FIX = {O: "0", Q: "0", D: "0", I: "1", L: "1", S: "5", B: "8", Z: "2", G: "6"};
     function extractCandidates(text) {
       const found = new Map();
       const lines = text.toUpperCase().split(/\n/);
@@ -1035,9 +494,9 @@
           const fixed = [...m[2]].map(c => FIX[c] || c).join("");
           const corrections = 8 - realDigits;
           const serial = m[1] + fixed + m[3];
-          let score = 10 - 3 * corrections + (FED[m[1][0]] ? 3 : 0) + (m[1].length === 1 ? 1 : 0);
+          const score = 10 - 3 * corrections + (FaceValue.FED[m[1][0]] ? 3 : 0) + (m[1].length === 1 ? 1 : 0);
           const prev = found.get(serial);
-          if (!prev || prev.score < score) found.set(serial, { serial, corrected: corrections > 0, score });
+          if (!prev || prev.score < score) found.set(serial, {serial, corrected: corrections > 0, score});
         }
       }
       return [...found.values()].sort((a, b) => b.score - a.score).slice(0, 4);
@@ -1045,19 +504,20 @@
 
     async function scanImage(file) {
       const status = $("#ocrStatus"), chips = $("#chips");
-      chips.innerHTML = ""; status.textContent = "Loading photo…";
+      chips.innerHTML = ""; state.image = null; status.textContent = "Loading photo…";
       const url = URL.createObjectURL(file);
       const img = new Image();
       img.onload = async () => {
         const pv = $("#preview"); pv.src = url; pv.style.display = "block";
+        state.image = FaceValue.compressImage(img);            // saved with the bill if you add it to your vault
         try {
           status.textContent = "Loading text reader (first scan takes a moment)…";
           const worker = await getWorker();
-          progressCb = m => { if (m.status === "recognizing text") status.textContent = "Reading serial number… " + Math.round(m.progress * 100) + "%"; };
+          progressCb = m => {if (m.status === "recognizing text") status.textContent = "Reading serial number… " + Math.round(m.progress * 100) + "%";};
           let cands = [];
           for (const rot of [0, 90, 270, 180]) {
             status.textContent = rot ? "Trying the photo rotated " + rot + "°…" : "Reading serial number…";
-            const { data } = await worker.recognize(prepCanvas(img, rot));
+            const {data} = await worker.recognize(prepCanvas(img, rot));
             cands = extractCandidates(data.text);
             if (cands.length) break;
           }
@@ -1068,27 +528,26 @@
           status.textContent = cands.length > 1 ? "Found " + cands.length + " possible serials. Pick the one that matches your bill:" : "Found a serial. Check it against your bill:";
           cands.forEach(c => {
             const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = c.serial;
-            if (c.corrected) { const sm = document.createElement("small"); sm.textContent = "characters corrected"; b.appendChild(sm); }
-            b.onclick = () => { $("#serial").value = c.serial; window.__corrected = c.corrected ? c.serial : null; runCheck({ corrected: window.__corrected }); };
+            if (c.corrected) {const sm = document.createElement("small"); sm.textContent = "characters corrected"; b.appendChild(sm);}
+            b.onclick = () => {$("#serial").value = c.serial; state.corrected = c.corrected ? c.serial : null; runCheck();};
             chips.appendChild(b);
           });
-          // auto-fill the best guess so the person can just confirm
-          $("#serial").value = cands[0].serial; window.__corrected = cands[0].corrected ? cands[0].serial : null;
+          $("#serial").value = cands[0].serial; state.corrected = cands[0].corrected ? cands[0].serial : null;
         } catch (err) {
           status.textContent = "The photo reader isn't available (" + err.message + "). Type the serial number below instead.";
         }
       };
-      img.onerror = () => { status.textContent = "That file couldn't be opened as an image."; };
+      img.onerror = () => {status.textContent = "That file couldn't be opened as an image.";};
       img.src = url;
     }
 
-    $("#file").addEventListener("change", e => { const f = e.target.files[0]; if (f) scanImage(f); });
+    $("#file").addEventListener("change", e => {const f = e.target.files[0]; if (f) scanImage(f);});
     const drop = $("#drop");
-    ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("drag"); }));
-    ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("drag"); }));
-    drop.addEventListener("drop", e => { const f = e.dataTransfer.files[0]; if (f) scanImage(f); });
+    ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => {e.preventDefault(); drop.classList.add("drag");}));
+    ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => {e.preventDefault(); drop.classList.remove("drag");}));
+    drop.addEventListener("drop", e => {const f = e.dataTransfer.files[0]; if (f) scanImage(f);});
 
-    renderWallet();
+    FaceValue.navSummary();
   </script>
 </body>
 
