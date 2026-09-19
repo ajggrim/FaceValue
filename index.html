@@ -83,6 +83,40 @@
       color: var(--ink-soft)
     }
 
+    .rotate-controls {
+      display: none;
+      gap: 8px;
+      margin-top: 10px
+    }
+
+    .rotate-controls.show {
+      display: flex
+    }
+
+    .rotate-controls button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font: 600 .85rem var(--body);
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 4px;
+      cursor: pointer
+    }
+
+    .rotate-controls button:hover {
+      background: #f3f6f0
+    }
+
+    #serial[readonly],
+    #series[readonly] {
+      background: #eef2ec;
+      color: var(--ink-soft);
+      cursor: not-allowed
+    }
+
     .chips {
       display: flex;
       flex-wrap: wrap;
@@ -250,7 +284,8 @@
       <!-- ===== input ===== -->
       <section class="panel" aria-labelledby="h-in">
         <h2 id="h-in">Scan a bill</h2>
-        <p class="sub">Take a photo of the serial number or type it in. You can correct anything we misread.</p>
+        <p class="sub">Take a photo of the serial number. We read it automatically, and you can rotate the photo or
+          pick a different match if we found more than one.</p>
 
         <label class="drop" id="drop">
           <input type="file" id="file" accept="image/*" capture="environment">
@@ -258,12 +293,17 @@
           <span>Get the serial number large and in focus, in good light.</span>
         </label>
         <img id="preview" alt="Preview of the bill you selected">
+        <div class="rotate-controls" id="rotateControls">
+          <button type="button" id="rotateLeft" aria-label="Rotate photo left 90 degrees">&#8634; Rotate left</button>
+          <button type="button" id="rotateRight" aria-label="Rotate photo right 90 degrees">&#8635; Rotate right</button>
+        </div>
         <p id="ocrStatus" role="status" aria-live="polite"></p>
         <div class="chips" id="chips"></div>
 
-        <label for="serial">Serial number <span class="hint">(letter, 8 digits, letter or star)</span></label>
+        <label for="serial">Serial number <span class="hint">(read automatically from your photo — not
+            editable)</span></label>
         <input type="text" id="serial" inputmode="text" autocomplete="off" spellcheck="false" maxlength="14"
-          placeholder="L12345678A">
+          placeholder="Scan a photo to fill this in" readonly>
 
         <div class="lab" id="lbl-denom">Denomination</div>
         <div class="seg" id="denom" role="group" aria-labelledby="lbl-denom"></div>
@@ -274,8 +314,8 @@
             <select id="cond"></select>
           </div>
           <div>
-            <label for="series">Series year <span class="hint">(optional)</span></label>
-            <input type="text" id="series" inputmode="numeric" maxlength="5" placeholder="2013">
+            <label for="series">Series year <span class="hint">(optional, not editable)</span></label>
+            <input type="text" id="series" inputmode="numeric" maxlength="5" placeholder="—" readonly>
           </div>
         </div>
 
@@ -339,7 +379,7 @@
     const {esc, money} = FaceValue;
     const $ = s => document.querySelector(s);
     const SAMPLES = ["L12345678A", "B00000042C", "F55555555D", "K12344321B", "D10101010F", "G27182818*", "A07041776C", "H63289471E"];
-    const state = {denom: 1, image: null, last: null, corrected: null};
+    const state = {denom: 1, image: null, last: null, corrected: null, rawImg: null, rotation: 0};
 
     /* ---------- controls ---------- */
     FaceValue.DENOMS.forEach(d => {
@@ -355,8 +395,9 @@
       $("#sampleBtns").appendChild(b);
     });
     function clearPhoto() {
-      state.image = null; state.corrected = null;
+      state.image = null; state.corrected = null; state.rawImg = null; state.rotation = 0;
       $("#preview").style.display = "none"; $("#chips").innerHTML = ""; $("#ocrStatus").textContent = ""; $("#file").value = "";
+      $("#rotateControls").classList.remove("show");
     }
     $("#check").onclick = () => runCheck();
     $("#serial").addEventListener("keydown", e => {if (e.key === "Enter") runCheck();});
@@ -411,7 +452,7 @@
     function renderInvalid(raw) {
       const s = String(raw).toUpperCase().replace(/[\s\-]/g, "");
       const tips = [];
-      if (!s) tips.push("Enter a serial number or scan a photo first.");
+      if (!s) tips.push("Scan a photo first — the serial fills in automatically once we read it.");
       else {
         if (!/^[A-Z]/.test(s)) tips.push("It should start with a letter.");
         const digits = (s.match(/\d/g) || []).length;
@@ -462,6 +503,31 @@
       return workerPromise;
     }
 
+    /* plain (non-grayscale) rotate, used for the preview + saved vault photo */
+    function rotateToCanvas(img, deg) {
+      const swap = deg === 90 || deg === 270;
+      const w = img.naturalWidth, h = img.naturalHeight;
+      const c = document.createElement("canvas");
+      c.width = swap ? h : w; c.height = swap ? w : h;
+      const g = c.getContext("2d");
+      g.translate(c.width / 2, c.height / 2); g.rotate(deg * Math.PI / 180);
+      g.drawImage(img, -w / 2, -h / 2, w, h);
+      return c;
+    }
+
+    function applyRotation(delta) {
+      if (!state.rawImg) return;
+      state.rotation = (state.rotation + delta + 360) % 360;
+      const canvas = rotateToCanvas(state.rawImg, state.rotation);
+      const url = canvas.toDataURL("image/jpeg", 0.92);
+      $("#preview").src = url;
+      const rotated = new Image();
+      rotated.onload = () => {state.image = FaceValue.compressImage(rotated);};
+      rotated.src = url;
+    }
+    $("#rotateLeft").onclick = () => applyRotation(-90);
+    $("#rotateRight").onclick = () => applyRotation(90);
+
     function prepCanvas(img, rotate) {
       const max = 1800, sc = Math.min(1.5, max / Math.max(img.naturalWidth, img.naturalHeight));
       const w = Math.round(img.naturalWidth * sc), h = Math.round(img.naturalHeight * sc);
@@ -509,6 +575,8 @@
       const img = new Image();
       img.onload = async () => {
         const pv = $("#preview"); pv.src = url; pv.style.display = "block";
+        state.rawImg = img; state.rotation = 0;
+        $("#rotateControls").classList.add("show");
         state.image = FaceValue.compressImage(img);            // saved with the bill if you add it to your vault
         try {
           status.textContent = "Loading text reader (first scan takes a moment)…";
@@ -522,7 +590,7 @@
             if (cands.length) break;
           }
           if (!cands.length) {
-            status.textContent = "Couldn't find a serial number. Try a closer, brighter photo, or type it in below.";
+            status.textContent = "Couldn't find a serial number. Try a closer, brighter photo, or use the rotate buttons above if the bill is sideways.";
             return;
           }
           status.textContent = cands.length > 1 ? "Found " + cands.length + " possible serials. Pick the one that matches your bill:" : "Found a serial. Check it against your bill:";
@@ -534,7 +602,7 @@
           });
           $("#serial").value = cands[0].serial; state.corrected = cands[0].corrected ? cands[0].serial : null;
         } catch (err) {
-          status.textContent = "The photo reader isn't available (" + err.message + "). Type the serial number below instead.";
+          status.textContent = "The photo reader isn't available (" + err.message + "). Try again, or use one of the demo serials below.";
         }
       };
       img.onerror = () => {status.textContent = "That file couldn't be opened as an image.";};
